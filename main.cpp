@@ -13,7 +13,10 @@ vector<buse> func;
 vector<vector<buse>> hashTable(1001,vector<buse>(1001,-1));
 vector<string> dictionary;
 string inputString;
-
+/*func[] array is used to record the calculated values and
+dynamic programming is implemented to use those values
+*/
+//hashes the string sent as a parameter to the 
 buse hashle(string s,int index){
     buse hash = 0;
     if(s.length() > 0 && hashTable[index][s.length() - 1] != -1)
@@ -25,7 +28,7 @@ buse hashle(string s,int index){
     }
     return hash;
 }
-
+//to hash the words in the dictionary
 buse hashle2(string s){
     buse hash = 0;
         for (int i = 0; i < s.length(); i++) {
@@ -33,9 +36,9 @@ buse hashle2(string s){
         }
     return hash;
 }
-
+//index is the begining index of the string
 buse function(int index){
-    if(index == length){
+    if(index == length){//if we reach the end of the string terminate
         return 1;
     }
     if(func[index]!=-1){
@@ -47,7 +50,11 @@ buse function(int index){
         string word = dictionary[i];
         if(word.length()+index <= inputString.size()+1) {
             string word2 = inputString.substr(index, word.length());
+            //if the string, which is starting from "index" and has a length of word.length, is not hashed and -1
             if (hashTable[index][word.length()] == -1) {
+                /*if the string with length-1 is already calculated no need to calculate again, use the hash in the hashTable[index][word.length() - 1]
+                and add the last letter's hash to it
+                */
                 if(word.length() > 0 && hashTable[index][word.length() - 1] != -1)
                     hashTable[index][word.length()] =(p * hashTable[index][word.length() - 1] + (long long int) (inputString.substr(index, word.length())[word.length() - 1] - 97)) % asal;
                 else
@@ -86,6 +93,7 @@ int main(int argc, char* argv[]) {
         dicHash[i] = (hashle2(nextWord));
         dictionary[i] = nextWord;
     }
+    //Call function with parameter 0 (the begining index)
     buse result = function(0);
     ofstream myfile;
     myfile.open(argv[2]);
